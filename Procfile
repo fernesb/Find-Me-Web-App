@@ -1,0 +1,1 @@
+web: gunicorn sript1:app

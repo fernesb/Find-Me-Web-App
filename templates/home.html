@@ -1,17 +1,26 @@
 {%extends 'layout.html'%}
 {%block content%}
+
 <div class="home">
 	<h1>My Homepage</h1>
 	<p>This is a test website</p>
 </div>
 
 <div>
-	<button onclick="getLocation()">Try It</button>
+	<button onclick="getLocation()">Find Coordinates</button>
 
 	<p id="demo"></p>
 
+	<p>
+	  <input id='a' type="text" size="5" name="a"> +
+	  <input id='b' type="text" size="5" name="b"> =
+	  <span id="result">?</span>
+	<p><a href=# id="calculate">Display Summary</a>
+
 	<script>
 	var x = document.getElementById("demo");
+	var y = document.getElementById("a");
+	var z = document.getElementById("b");
 
 	function getLocation() {
 	    if (navigator.geolocation) {
@@ -22,9 +31,38 @@
 	}
 
 	function showPosition(position) {
+		// var lat = position.coords.latitude;
+		// var lng = position.coords.longitude;
 	    x.innerHTML = "Latitude: " + position.coords.latitude + 
 	    "<br>Longitude: " + position.coords.longitude;
+
+	    y.value = position.coords.latitude;
+	    z.value = position.coords.longitude;
 	}
-	</script>
+
+
+  $(function() {
+    var submit_form = function(e) {
+      $.getJSON($SCRIPT_ROOT + '/_add_numbers', {
+        a: $('input[name="a"]').val(),
+        b: $('input[name="b"]').val()
+      }, function(data) {
+        $('#result').text(data.result);
+        $('input[name=a]').focus().select();
+      });
+      return false;
+    };
+
+    $('a#calculate').bind('click', submit_form);
+
+    $('input[type=text]').bind('keydown', function(e) {
+      if (e.keyCode == 13) {
+        submit_form(e);
+      }
+    });
+
+    $('input[name=a]').focus();
+  });
+</script>
 <div/>
 {%endblock%}

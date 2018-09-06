@@ -1,6 +1,9 @@
-body { font: 16px Helvetica, Sans-Serif; line-height: 24px; background: url(images/noise.gif); }
-.clear { clear: both; }
-#page-wrap { width: 800px; margin: 20px auto 40px; padding-top:35px;}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #060;
+}
 
 /*
  * Formatting the header area

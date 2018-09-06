@@ -24,8 +24,28 @@ def add_numbers():
     a = request.args.get('a', 0, type=str)
     b = request.args.get('b', 0, type=str)
 
-    location = geocoder.google([a, b], method='reverse')
-    loc_name = location.city + ' ' + location.state
+    loc = geocoder.osm([a, b], method='reverse')
+
+    if str(loc.town) != 'None':
+        loc_name = loc.town + ' ' + loc.county + ' ' + loc.state
+    elif str(loc.neighborhood) == 'None' and str(loc.suburb) == 'None':
+        loc_name = loc.city + ' ' + loc.county + ' ' + loc.state
+    elif str(loc.neighborhood) == 'None':
+        if 'city_district' in loc.json['raw']['address']:
+            loc_name = loc.suburb + ' ' + loc.json['raw']['address']['city_district']
+        else:
+            loc_name = loc.suburb, loc.city
+    elif str(loc.suburb) == 'None':
+        if 'city_district' in loc.json['raw']['address']:
+            loc_name = loc.neighborhood + ' ' + loc.json['raw']['address']['city_district']
+        else:
+            loc_name = loc.neighborhood + ' ' + loc.city
+    else:
+        if 'city_district' in loc.json['raw']['address']:
+            loc_name = loc.neighborhood + ' ' + loc.suburb, loc.json['raw']['address']['city_district']
+        else:
+            loc_name = loc.neighborhood + ' ' + loc.suburb + ' ' + loc.city
+
     summary = wiki.page(loc_name).summary
 
     return jsonify(result=loc_name + ': \n\n' + summary)

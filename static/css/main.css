@@ -3,6 +3,7 @@ body {
   padding: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #060;
+  width: auto;
 }
 
 /*
@@ -45,6 +46,7 @@ div.home {
   -webkit-border-radius: 6px;
      -moz-border-radius: 6px;
           border-radius: 6px;
+  width: auto;
 }
 
 div.about {
@@ -53,6 +55,7 @@ div.about {
   -webkit-border-radius: 6px;
      -moz-border-radius: 6px;
           border-radius: 6px;
+  width: auto;
 }
 
 h2 {
